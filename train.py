@@ -11,7 +11,7 @@ import argparse
 import torchvision.transforms as T
 import cv2
 import glob
-
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class AverageMeter(object):
   # A handy class from the PyTorch ImageNet tutorial
   def __init__(self):
@@ -54,7 +54,7 @@ class Trainer:
 
       for i, (input_gray, input_ab) in enumerate(train_loader):
 
-        input_gray, input_ab = input_gray.cuda(), input_ab.cuda()
+        input_gray, input_ab = input_gray.to(device), input_ab.to(device)
         data_time.update(time.time() - end) # Record time to load data
 
         # Run forward pass
@@ -90,7 +90,7 @@ class Trainer:
 
       for i, (input_gray, input_ab) in enumerate(val_loader):
         data_time.update(time.time() - end)
-        input_gray, input_ab = input_gray.cuda(), input_ab.cuda()
+        input_gray, input_ab = input_gray.to(device), input_ab.to(device)
 
         # Run model and record loss
         output_ab = model(input_gray)
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     parser.add_argument('--n_val', type=int, default=100,
                         help='Number of images for validation')
 
-    parser.add_argument('--epochs', type=int, default=100,
+    parser.add_argument('--epochs', type=int, default=5,
                         help='Number of training epochs')
 
     parser.add_argument('--save_images', type=bool, default=True,
@@ -186,15 +186,15 @@ if __name__ == "__main__":
     # clean_train_imgs("./images/train/class/")
     # clean_train_imgs("./images/val/class/")
 
-    model = Net().cuda()
+    model = Net().to(device)
 
     if args.loss=='mse': # Initialize loss according to choice
-        criterion = nn.MSELoss().cuda()
+        criterion = nn.MSELoss().to(device)
     else:
-        criterion = nn.L1Loss().cuda()
+        criterion = nn.L1Loss().to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5, verbose=False)
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
     # Training
     train_transforms = T.Compose([T.CenterCrop(224)])
     train_imagefolder = ColorizeData('images/train', train_transforms)
@@ -213,6 +213,7 @@ if __name__ == "__main__":
         scheduler.step()
         with torch.no_grad():
             Trainer().validate(val_loader, epoch, args.save_images, model, criterion)
+        torch.save(model, 'models/saved_model.pth')
 
     if args.save_model==True: # Save the final model
         torch.save(model, 'models/saved_model.pth')

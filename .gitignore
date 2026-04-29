@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+landscape_images/
+images/
+outputs/
+models/
+inference/

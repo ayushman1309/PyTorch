@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torchvision.models as models
 
-
+# updated
 class Net(nn.Module):
   def __init__(self, input_size=128):
     super(Net, self).__init__()

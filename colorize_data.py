@@ -4,6 +4,8 @@ import numpy as np
 from skimage.color import rgb2lab, rgb2gray
 from torchvision import datasets
 
+
+# updated
 class ColorizeData(datasets.ImageFolder):
 
   def __getitem__(self, index):

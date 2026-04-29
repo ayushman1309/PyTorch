@@ -40,37 +40,3 @@ Download the dataset zip file from https://drive.google.com/file/d/15jprd8VTdtIQ
 ```
 
 2. Run train.py with the following arguments:
-
-`--image_dir`: Directory containing all images in the dataset\
-`--n_val`: Number of images for validation\
-`--epochs`: Number of training epochs\
-`--save_images`: Whether to save input and output images during validation\
-`--lr`: Learning rate for training\
-`--weight_decay`: Weight decay value for Adam optimizer\
-`--save_model`: Whether to save the model after training\
-`--loss`: Choose between 'mae' or 'mse' Loss for training\
-`--batch_size`: Batch size for training and validation
-
-The training creates a `/Outputs/` folder with subfolders `/Color/` and `/Gray/`. Validation results are saved in `/Color/` and inputs in `/Gray/`. The training also creates an `/Images/` folder with `train/val` images separated into different folders. If `save_model` is enabled, the final model is saved in a `/Models/` folder as a .pth file.
-
-## How to Train with Color Temperature Control
-
-- Run `train_hue_control.py` and follow the training instructions above.
-- The color temperature can be adjusted in `colorize_data_hue_control.py` by changing the hue value.
-
-## Run Inference
-To run inference on a grayscale image, the saved model can be used. The following steps outline how to perform inference:
-
-1. Place the test image in the `/inference/` folder and name it test_img.jpg (this can be changed by passing arguments).
-2. Run the `inference_script.py` file.
-3. Use arguments from the command line to set the parameters. The following arguments are available:\
-`--model_path`: Path to the saved model.\
-`--image_path`: Path to the grayscale test image.
-4. The inference output can be found in the `/inference/` folder as `inference_output.jpg`.
-
-## Results
-![image](https://user-images.githubusercontent.com/38180831/215289552-d3fd414a-84d9-4eda-9ead-b70abb5e59c5.png)
-
-### Demonstrating Color Temperature Control 
-![image](https://user-images.githubusercontent.com/38180831/215289605-c464a3bd-d50a-4a19-9aed-90f9c624e035.png)
-

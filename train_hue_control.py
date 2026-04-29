@@ -10,6 +10,8 @@ import torch.nn as nn
 import argparse
 import torchvision.transforms as T
 
+
+# updated
 class AverageMeter(object):
   # A handy class from the PyTorch ImageNet tutorial
   def __init__(self):

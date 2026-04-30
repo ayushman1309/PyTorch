@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', default='models/saved_model.pth', type=str)
-    parser.add_argument('--image_path', default='inference/0.jpg', type=str)
+    parser.add_argument('--image_path', default='inference/1202.jpg', type=str)
 
     args = parser.parse_args()
 

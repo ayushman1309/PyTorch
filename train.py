@@ -162,19 +162,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    #Splitting images into train and validation
-    # os.makedirs('images/train/class', exist_ok=True) 
-    # os.makedirs('images/val/class', exist_ok=True)   
-    # for i, file in enumerate(os.listdir(args.image_dir)):
-    #     if i < args.n_val: # first n_val images will be val
-    #         os.rename(args.image_dir + file, 'images/val/class/' + file)
-    #     else: # others will be train
-    #         os.rename(args.image_dir + file, 'images/train/class/' + file)
-    
-    # # Make folders
-    # os.makedirs('outputs/color', exist_ok=True)
-    # os.makedirs('outputs/gray', exist_ok=True)
-    # os.makedirs('models', exist_ok=True)
     files = glob.glob('outputs/color/*')
     for f in files:
         os.remove(f)
@@ -182,9 +169,7 @@ if __name__ == "__main__":
     for f in files2:
         os.remove(f)
 
-    # # Clean images
-    # clean_train_imgs("./images/train/class/")
-    # clean_train_imgs("./images/val/class/")
+
 
     model = Net().to(device)
 
@@ -218,3 +203,12 @@ if __name__ == "__main__":
     if args.save_model==True: # Save the final model
         torch.save(model, 'models/saved_model.pth')
 
+
+
+#this is the power shell script to split the dataset into train and val folders. You can run it in the terminal with the command: `powershell -File split_dataset.ps1`
+#$files = Get-ChildItem landscape_images
+#$split = [int]($files.Count * 0.8)
+#$train = $files[0..($split-1)]
+#$val = $files[$split..($files.Count-1)]
+#$train | ForEach-Object { Copy-Item $_.FullName images\train\class }
+#$val | ForEach-Object { Copy-Item $_.FullName images\val\class }
